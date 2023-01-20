@@ -1,12 +1,9 @@
-.title {
-  font-size: 24px;
-}
 .form {
   display: flex;
   flex-direction: column;
   gap: 15px;
   padding: 15px;
-
+  border-radius: 4px;
   width: 300px;
   border: 1px solid #000;
 }
@@ -14,17 +11,19 @@
   display: flex;
   flex-direction: column;
 
-  font-size: 18px;
+  font-size: 16px;
 }
 .input {
+  padding: 4px;
+  font-size: 14px;
   border-radius: 4px;
-  margin-top: 6px;
+  margin-top: 4px;
   width: 200px;
 }
 .input:hover,
 .input:focus {
   outline: none;
-  border-color: rgb(67, 197, 197);
+  border-color: rgb(61, 61, 246);
 }
 .button {
   cursor: pointer;
@@ -35,6 +34,7 @@
 }
 .button:hover,
 .button:focus {
-  border-color: rgb(67, 197, 197);
-  background-color: rgb(67, 197, 197);
+  color: #fff;
+  border-color: rgb(61, 61, 246);
+  background-color: rgb(61, 61, 246);
 }

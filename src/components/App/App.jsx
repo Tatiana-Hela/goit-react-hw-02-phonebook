@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-// import css from '../App/App.module.css';
+import css from '../App/App.module.css';
 
 import ContactForm from 'components/ContactForm/ContactForm';
 import ContactList from 'components/ContactList/ContactList';
@@ -70,7 +70,7 @@ class App extends Component {
     const { filter, contacts } = this.state;
     const visibleContacts = this.getVisibleContacts();
     return (
-      <div>
+      <div className={css.container}>
         <Section title={'Phonebook'}>
           <ContactForm onSubmit={this.addNewContact} />
         </Section>
@@ -85,7 +85,7 @@ class App extends Component {
               onDeleteContact={this.deleteContact}
             />
           ) : (
-            <p>Your phonebook is empty. Please add contact.</p>
+            <p className={css.text}>Your phonebook is empty. Please add contact.</p>
           )}
         </Section>
       </div>
