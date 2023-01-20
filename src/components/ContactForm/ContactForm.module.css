@@ -1,0 +1,40 @@
+.title {
+  font-size: 24px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+
+  width: 300px;
+  border: 1px solid #000;
+}
+.label {
+  display: flex;
+  flex-direction: column;
+
+  font-size: 18px;
+}
+.input {
+  border-radius: 4px;
+  margin-top: 6px;
+  width: 200px;
+}
+.input:hover,
+.input:focus {
+  outline: none;
+  border-color: rgb(67, 197, 197);
+}
+.button {
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+
+  margin-right: auto;
+}
+.button:hover,
+.button:focus {
+  border-color: rgb(67, 197, 197);
+  background-color: rgb(67, 197, 197);
+}
