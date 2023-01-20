@@ -1,8 +1,11 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-import css from '../App/App.module.css';
+// import css from '../App/App.module.css';
 
 import ContactForm from 'components/ContactForm/ContactForm';
+import ContactList from 'components/ContactList/ContactList';
+import Filter from 'components/Filter/Filter';
+import Section from 'components/Section/Section';
 
 class App extends Component {
   state = {
@@ -29,10 +32,10 @@ class App extends Component {
     const isNumberAdded = contacts.some(contact => contact.number === number);
 
     if (isNameAdded) {
-      // Notify.failure(`${name} is alredy in contacts`);
+      alert(`${name} is already is contacts`);
       return false;
     } else if (isNumberAdded) {
-      // Notify.failure(`${number} is alredy in contacts`);
+      alert(`${number} is already is contacts`);
       return false;
     }
 
@@ -43,16 +46,49 @@ class App extends Component {
     return true;
   };
 
+  onChangeFilter = e => {
+    this.setState({ filter: e.currentTarget.value });
+  };
+
+  deleteContact = idItem => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== idItem),
+    }));
+  };
+
+  getVisibleContacts = () => {
+    const { filter, contacts } = this.state;
+
+    const normalizeFilter = filter.toLowerCase();
+
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizeFilter)
+    );
+  };
+
   render() {
+    const { filter, contacts } = this.state;
+    const visibleContacts = this.getVisibleContacts();
     return (
-      <>
-        <h2 className={css.title}>Phonebook</h2>
-        <ContactForm onSubmit={this.addNewContact} />
-        <h2 className={css.title}>Contacts</h2>
-        <ul>
-          <li></li>
-        </ul>
-      </>
+      <div>
+        <Section title={'Phonebook'}>
+          <ContactForm onSubmit={this.addNewContact} />
+        </Section>
+        <Section title={'Contacts'}>
+          {contacts.length > 1 && (
+            <Filter value={filter} onChange={this.onChangeFilter} />
+          )}
+
+          {contacts.length > 0 ? (
+            <ContactList
+              contacts={visibleContacts}
+              onDeleteContact={this.deleteContact}
+            />
+          ) : (
+            <p>Your phonebook is empty. Please add contact.</p>
+          )}
+        </Section>
+      </div>
     );
   }
 }
