@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { Report } from 'notiflix/build/notiflix-report-aio';
 import { nanoid } from 'nanoid';
 import css from '../App/App.module.css';
 
@@ -32,17 +33,17 @@ class App extends Component {
     const isNumberAdded = contacts.some(contact => contact.number === number);
 
     if (isNameAdded) {
-      alert(`${name} is already is contacts`);
+      Report.failure('Oh...', `${name} is already is contacts.`, 'OK');
       return false;
     } else if (isNumberAdded) {
-      alert(`${number} is already is contacts`);
+      Report.failure('Oh...', `${number} is already is contacts.`, 'OK');
       return false;
     }
 
     this.setState(({ contacts }) => ({
       contacts: [newContact, ...contacts],
     }));
-
+    Report.success('Hooray!', `${name} is added to the phonebook.`, 'OK');
     return true;
   };
 
@@ -56,7 +57,7 @@ class App extends Component {
     }));
   };
 
-  getVisibleContacts = () => {
+  getFilteredBooks = () => {
     const { filter, contacts } = this.state;
 
     const normalizeFilter = filter.toLowerCase();
@@ -68,24 +69,29 @@ class App extends Component {
 
   render() {
     const { filter, contacts } = this.state;
-    const visibleContacts = this.getVisibleContacts();
+    const { addNewContact, onChangeFilter, deleteContact } = this;
+    const visibleContacts = this.getFilteredBooks();
+    const isContacts = Boolean(contacts.length);
     return (
       <div className={css.container}>
         <Section title={'Phonebook'}>
-          <ContactForm onSubmit={this.addNewContact} />
+          <ContactForm onSubmit={addNewContact} />
         </Section>
         <Section title={'Contacts'}>
-          {contacts.length > 1 && (
-            <Filter value={filter} onChange={this.onChangeFilter} />
+          {isContacts > 1 && (
+            <Filter value={filter} onChange={onChangeFilter} />
           )}
 
-          {contacts.length > 0 ? (
+          {isContacts && (
             <ContactList
               contacts={visibleContacts}
-              onDeleteContact={this.deleteContact}
+              onDeleteContact={deleteContact}
             />
-          ) : (
-            <p className={css.text}>Your phonebook is empty. Please add contact.</p>
+          )}
+          {!isContacts && (
+            <p className={css.text}>
+              Your phonebook is empty. Please add contact.
+            </p>
           )}
         </Section>
       </div>
